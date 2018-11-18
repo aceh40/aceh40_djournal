@@ -1,0 +1,23 @@
+{% extends 'journal/base.html' %}
+
+{% block content %}
+    <h1>Journal</h1>
+    </hr>
+    <a href= "{% url 'journal:journal_entry' %}"><h3>Create new:</h3></a>
+    <h3>Recent entries:</h3>
+    <hr/>
+    {% if journal %}
+        <ul>
+        {% for journal_entry in journal %}
+            <li>
+                <h6>{{ journal_entry.title }}</h6>
+                <em>{{ journal_entry.created_date }}</em>
+                <p>{{ journal_entry.text }}</p>
+            </li>
+            <hr/>
+        {% endfor %}
+        </ul>
+    {% else %}
+        <p>There are no journal entries.</p>
+    {% endif %}
+{% endblock %}

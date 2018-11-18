@@ -6,9 +6,14 @@ h1 {
 color: #00608C;
 }
 
+b.nav-menu {
+color: #ffffff;
+}
+
 a.nav-link {
 color: #ffffff;
 }
+
 
 body {
 padding-left: 15px;
