@@ -1,0 +1,29 @@
+{% extends 'journal/base.html' %}
+
+{% block content %}
+    <h1>Weight</h1>
+    </hr>
+    <a href= "{% url 'journal:weight_entry' %}"><h5>Create new:</h5></a>
+    <h3>Recent entries:</h3>
+    <hr/>
+    {% if weight %}
+
+        <table class="table table-borderless table-sm">
+            <tr>
+                <th>Date</th>
+                <th>Weight (lb)</th>
+                <th>Note</th>
+            </tr>
+            {% for weight_entry in weight %}
+            <tr>
+                <td>{{ weight_entry.created_date }}</td>
+                <td>{{ weight_entry.weight }}</td>
+                <td>{{ weight_entry.note }}</td>
+            </tr>
+            {% endfor %}
+        </table>
+
+    {% else %}
+        <p>There are no weight entries.</p>
+    {% endif %}
+{% endblock %}
