@@ -12,7 +12,7 @@ class JournalEntry(models.Model):
     user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
     title = models.CharField(max_length=200)
     text = models.TextField()
-    created_date = models.DateTimeField(auto_now_add=True, editable=False, null=False, blank=False)
+    created_date = models.DateTimeField(auto_now_add=True,null=False, blank=False)
 
     def __str__(self):
         return f'Title: {self.title}, date: {self.created_date}'
@@ -21,16 +21,26 @@ class JournalEntry(models.Model):
         self.created_date = timezone.now()
         self.save()
 
+    class Meta:
+        """ Meta data, in this case we instruct to order list views by due_back.
+        """
+        ordering = ['-created_date']
+
 
 class WeightEntry(models.Model):
-    """ """
+    """
+    """
     user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
     weight = models.DecimalField(blank=False, null=False, verbose_name='Weight in lb', max_digits=5, decimal_places=2)
     note = models.TextField(blank=True, null=True)
-    created_date = models.DateTimeField(auto_now_add=True, editable=False, null=False, blank=False)
+    created_date = models.DateTimeField(auto_now_add=True, null=False, blank=False)
 
     def __str__(self):
         return f'Weight: {self.weight}, date: {self.created_date}'
 
+    class Meta:
+        """ Meta data, in this case we instruct to order list views by due_back.
+        """
+        ordering = ['-created_date']
 
 
