@@ -1,0 +1,37 @@
+{% extends 'journal/base.html' %}
+
+{% block content %}
+    <h1>String Job History</h1>
+    </hr>
+    <a href= "{% url 'journal:string_job' %}"><h5>Create new:</h5></a>
+    <h3>Recent entries:</h3>
+    <hr/>
+    {% if string_job_list %}
+
+        <table class="table table-borderless table-sm" style="display: block">
+            <tr>
+                <th style="width:200px">Date</th>
+                <th style="width:225px">Racket</th>
+                <th style="width:175px">Main String</th>
+                <th style="width:75px">Tension</th>
+                <th style="width:175px">Cross String</th>
+                <th style="width:75px">Tension</th>
+                <th style="width:300px">Note</th>
+            </tr>
+            {% for string_job in string_job_list %}
+            <tr>
+                <td>{{ string_job.created_date }}</td>
+                <td><a href="{% url 'journal:tennis_racket' string_job.racket.pk %}">{{ string_job.racket }}</a></td>
+                <td>{{ string_job.main_string_id }}</td>
+                <td>{{ string_job.main_tension }}</td>
+                <td>{{ string_job.cross_string_id }}</td>
+                <td>{{ string_job.cross_tension }}</td>
+                <td>{{ string_job.text }}</td>
+            </tr>
+            {% endfor %}
+        </table>
+
+    {% else %}
+        <p>There are no string job entries.</p>
+    {% endif %}
+{% endblock %}
