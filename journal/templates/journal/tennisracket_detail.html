@@ -1,13 +1,31 @@
 {% extends 'journal/base.html' %}
+{% load verbose_names %}
 
 {% block content %}
 
     <div>
-        <h3>{{ tennisracket.make }}</h3><h3>{{ tennisracket.model }}</h3><h3>{{ tennisracket.variation }}</h3>
-        <p><strong>Head size: </strong>{{ tennisracket.head_size }}</p>
-        <p><strong>Head size: </strong>{{ tennisracket.head_size }}</p>
-        <p><strong>Head size: </strong>{{ tennisracket.head_size }}</p>
-        <p><strong>Head size: </strong>{{ tennisracket.head_size }}</p>
+        <h4>{{ tennisracket }}</h4>
+        <hr/>
+        <h5>Dimensions</h5>
+        <p><strong>{% get_verbose tennisracket "head_size" %}: </strong>{{ tennisracket.head_size }} sq.in.</p>
+        <p><strong>{% get_verbose tennisracket "length" %}: </strong>{{ tennisracket.length }} in.</p>
+        <p><strong>{% get_verbose tennisracket "stiffness" %}: </strong>{{ tennisracket.stiffness }}</p>
+        <p><strong>{% get_verbose tennisracket "beam_width" %}: </strong>{{ tennisracket.beam_width }}</p>
+        <hr/>
+        <h5>Weight</h5>
+        <p><strong>{% get_verbose tennisracket "strung_weight" %}: </strong>{{ tennisracket.strung_weight }} oz.</p>
+        <p><strong>{% get_verbose tennisracket "unstrung_weight" %}: </strong>{{ tennisracket.unstrung_weight }} oz.</p>
+        <p><strong>{% get_verbose tennisracket "swing_weight" %}: </strong>{{ tennisracket.swing_weight }} oz.</p>
+        <p><strong>{% get_verbose tennisracket "balance" %}: </strong>{{ tennisracket.balance }} </p>
+        <hr/>
+        <h5>Stringing Instructions</h5>
+        <p><strong>{% get_verbose tennisracket "main_strings" %}: </strong>{{ tennisracket.main_strings }} oz.</p>
+        <p><strong>{% get_verbose tennisracket "cross_strings" %}: </strong>{{ tennisracket.cross_strings }} oz.</p>
+        <p><strong>{% get_verbose tennisracket "min_tension" %}: </strong>{{ tennisracket.min_tension }} oz.</p>
+        <p><strong>{% get_verbose tennisracket "max_tension" %}: </strong>{{ tennisracket.max_tension }} oz.</p>
+        <p><strong>{% get_verbose tennisracket "mains_skip" %}: </strong>{{ tennisracket.mains_skip }} </p>
+
+
 
     </div>
 
