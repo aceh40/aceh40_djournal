@@ -7,7 +7,7 @@ from django.views import generic
 from django.views.generic.edit import CreateView
 
 from .forms import StringJobForm
-from .models import JournalEntry, WeightEntry, TennisRacket, TennisStringJob
+from .models import JournalEntry, WeightEntry, TennisRacket, TennisString, TennisStringJob
 
 
 # Create your views here.
@@ -78,13 +78,6 @@ class WeightEntryCreate(LoginRequiredMixin, CreateView):
         return HttpResponseRedirect(reverse('journal:weight'))
 
 
-class TennisRacketDetail(LoginRequiredMixin, generic.DetailView):
-    """
-    Generic class-based view listing books on loan to current user.
-    """
-    model = TennisRacket
-
-
 class TennisRacketList(LoginRequiredMixin, generic.ListView):
     """ Create generic list view on the Book model."""
     model = TennisRacket
@@ -96,6 +89,33 @@ class TennisRacketList(LoginRequiredMixin, generic.ListView):
     def get_queryset(self):
         """Another way to override the query set. This one is more flexible..."""
         return TennisRacket.objects.all()     # Get 5 books containing the title war.
+
+
+class TennisRacketDetail(LoginRequiredMixin, generic.DetailView):
+    """
+    Generic class-based view listing books on loan to current user.
+    """
+    model = TennisRacket
+
+
+class TennisStringList(LoginRequiredMixin, generic.ListView):
+    """ Create generic list view on the Book model."""
+    model = TennisString
+    paginate_by = 10
+    # Simple way to override default data:
+    context_object_name = 'tennis_string_list'    # your own name for the list as a template variable
+    template_name = 'journal/tennis_string_list.html'    # Specify your own template name/location
+
+    def get_queryset(self):
+        """Another way to override the query set. This one is more flexible..."""
+        return TennisString.objects.all()     # Get 5 books containing the title war.
+
+
+class TennisStringDetail(LoginRequiredMixin, generic.DetailView):
+    """
+    Generic class-based view listing books on loan to current user.
+    """
+    model = TennisString
 
 
 @login_required

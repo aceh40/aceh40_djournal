@@ -1,0 +1,15 @@
+{% extends 'journal/base.html' %}
+{% load verbose_names %}
+
+{% block content %}
+
+    <div>
+        <h4>{{ tennisstring }}</h4>
+        <hr/>
+        <p><strong>{% get_verbose tennisstring "type" %}: </strong>{{ tennisstring.type }}</p>
+        <p><strong>{% get_verbose tennisstring "gauge" %}: </strong>{{ tennisstring.gauge }}</p>
+        <p><strong>{% get_verbose tennisstring "url" %}: </strong>
+            <a href="{{ tennisstring.url }}">{{ tennisstring.url }}</a></p>
+    </div>
+
+{% endblock %}
