@@ -2,8 +2,8 @@
 
 {% block content %}
 
-    <a href="j{% url 'journal:journal' %}">Journal history</a>
-    <a href="j{% url 'journal:journal_entry' %}">   New</a>
+    <a href="{% url 'journal:journal' %}">Journal history</a>
+    <a href="{% url 'journal:journal_entry' %}">   New</a>
     <br/>
     <a href="{% url 'journal:weight' %}">Weight history</a>
     <a href="{% url 'journal:weight_entry' %}">   New</a>
