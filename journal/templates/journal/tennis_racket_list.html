@@ -1,0 +1,22 @@
+{% extends 'journal/base.html' %}
+
+{% block content %}
+    <h1>Tennis Rackets</h1>
+    </hr>
+    {% if tennis_racket_list %}
+
+        <table class="table table-borderless table-sm" style="display: block">
+            <tr>
+                <th style="width:200px">make</th>
+            </tr>
+            {% for tennis_racket in tennis_racket_list %}
+            <tr>
+                <td><a href="{% url 'journal:tennis_racket' tennis_racket.pk %}">{{ tennis_racket }}</a></td>
+            </tr>
+            {% endfor %}
+        </table>
+
+    {% else %}
+        <p>There are no string job entries.</p>
+    {% endif %}
+{% endblock %}

@@ -2,9 +2,17 @@
 
 {% block content %}
 
-    <a href="journal/">Journal history</a>
+    <a href="j{% url 'journal:journal' %}">Journal history</a>
+    <a href="j{% url 'journal:journal_entry' %}">   New</a>
     <br/>
-    <a href="weight/">Weight history</a>
-
+    <a href="{% url 'journal:weight' %}">Weight history</a>
+    <a href="{% url 'journal:weight_entry' %}">   New</a>
+    <br/>
+    <a href="{% url 'journal:string_job_list' %}">String job history</a>
+    <a href="{% url 'journal:string_job' %}">   New</a>
+    <br/>
+    <a href="{% url 'journal:tennis_racket_list' %}">Tennis rackets</a>
+    <br/>
+    <a href="{% url 'journal:tennis_string_list' %}">Tennis strings</a>
 {% endblock %}
 
