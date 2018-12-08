@@ -1,6 +1,8 @@
 from django.contrib import admin
 
-from .models import JournalEntry, WeightEntry, TennisRacket, TennisStringJob, Author, Book, ReadingLog
+from .models import JournalEntry, WeightEntry, \
+    TennisRacket, TennisString, TennisStringJob, \
+    Author, Book, ReadingLog
 
 admin.site.register(JournalEntry)
 admin.site.register(WeightEntry)
@@ -69,5 +71,6 @@ class BookAdmin(admin.ModelAdmin):
 
 
 admin.site.register(TennisRacket, TennisRacketAdmin)
+admin.site.register(TennisString, TennisStringAdmin)
 admin.site.register(Author, AuthorAdmin)
 admin.site.register(Book, BookAdmin)
