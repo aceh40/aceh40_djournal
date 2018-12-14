@@ -11,11 +11,16 @@ urlpatterns = [
     path('journal/entry/', views.JournalEntryCreate.as_view(), name='journal_entry'),
     path('weight/', views.WeightList.as_view(), name='weight'),
     path('weight/entry/', views.WeightEntryCreate.as_view(), name='weight_entry'),
+
     path('tennis_rackets/', views.TennisRacketList.as_view(), name='tennis_racket_list'),
     path('tennis_rackets/<int:pk>/', views.TennisRacketDetail.as_view(), name='tennis_racket'),
     path('tennis_strings/', views.TennisStringList.as_view(), name='tennis_string_list'),
     path('tennis_strings/<int:pk>/', views.TennisStringDetail.as_view(), name='tennis_string'),
     path('string_job/', views.string_job, name='string_job'),
     path('string_job_list/', views.StringJobList.as_view(), name='string_job_list'),
+
+    path('reading/', views.ReadingLogListView.as_view(), name='reading_log_list'),
+    path('reading/entry/', views.reading_log, name='reading_entry'),
+    path('reading/books/', views.book_list_view, name='book_list'),
 ]
 

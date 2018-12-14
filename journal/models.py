@@ -203,8 +203,10 @@ class Author(models.Model):
 
 class Book(models.Model):
     """ Enter books"""
-    authors = models.ManyToManyField(Author, verbose_name='Authors',
-                                     help_text='Select book authors.')
+    author = models.ForeignKey(Author, verbose_name='Author',
+                               help_text='Select book author.',
+                               null=True, blank=False,
+                               on_delete=models.SET_NULL)
     title = models.CharField(max_length=250, verbose_name='Title',
                              help_text='Enter book title.')
     total_pages = models.IntegerField(null=True, blank=True, verbose_name='Total pages',
@@ -221,40 +223,62 @@ class Book(models.Model):
     isbn_link = "https://en.wikipedia.org/wiki/International_Standard_Book_Number"
     isbn = models.CharField('ISBN', null=True, blank=True, max_length=13,
                             help_text=f'13 Character <a href="{isbn_link}">ISBN number</a>')
-    completed = models.BooleanField(default=False, help_text='Have you finished reading the book?')
-
-    book_status = ('')
-
-    # status =
 
     class Meta:
         # ordering = ('authors', 'title')
         verbose_name = 'Book'
         verbose_name_plural = 'Books'
 
-
     def __str__(self):
         """String for representing the Model object."""
         return f'{self.title}'
 
+    def get_current_status(self):
+        return BookStatus.objects.filter(book=self).order_by('-status_date').first()
+
+
+class BookStatusRef(models.Model):
+    """ Lists the book status codes.
+    """
+    status = models.CharField(max_length=25,null=False, blank=False)
+    logical_order = models.IntegerField(null=False, blank=False, unique=True,)
+
+    class Meta:
+        ordering = ('logical_order',)
+
+    def __str__(self):
+        return self.status
+
+
+class BookStatus(models.Model):
+    """ User specific book status (to read, read, etc.)
+    """
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
+    book = models.ForeignKey(Book, on_delete=models.SET_NULL, null=True, db_index=True)
+    status_date = models.DateTimeField(auto_now_add=True, null=False, blank=False)
+    status = models.ForeignKey(BookStatusRef, on_delete=models.SET_NULL, null=True, db_index=True)
+
+    class Meta:
+        ordering = ('-status_date',)
+        verbose_name = 'Book Status'
+        verbose_name_plural = 'Book Statuses'
+
 
 class ReadingLog(JournalEntry):
-    """ To replace WeightEntry (eventually).
-        Subclass of JournalEntry.
+    """ Subclass of JournalEntry.
     """
     book = models.ForeignKey(Book, on_delete=models.SET_NULL, null=True, db_index=True)
     page = models.IntegerField()
-    completed = models.BooleanField(blank=True, default=False)
 
     def set_type(self):
         """ Set the type of the journal entry."""
-        self.type = 'wl'
+        self.type = 'rl'
         self.save()
 
     def get_percent_completed(self):
         """ Calculate percent completed."""
         # ~TODO: See how you can calculate percentage. How do you access the total pages of the book?
-        if self.book.db_column('total_pages'):
+        if self.book.total_pages:
             pc = 100 * float(self.page) / float(self.book.total_pages)
             return pc
         else:

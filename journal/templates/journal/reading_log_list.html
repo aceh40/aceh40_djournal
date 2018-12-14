@@ -1,0 +1,25 @@
+{% extends 'journal/base.html' %}
+
+{% block content %}
+    <h1>Journal</h1>
+    </hr>
+    <a href= "{% url 'journal:reading_entry' %}"><h3>Create new</h3></a>
+    <h3>Recent entries:</h3>
+    <hr/>
+    {% if reading_list %}
+        <ul>
+        {% for reading_log in reading_list %}
+            <li>
+                <h6><strong>Book:</strong> {{ reading_log.book }}</h6>
+                <h6><strong>Author:</strong> {{ reading_log.book.author }}</h6>
+                <h6><strong>Date:</strong> {{ reading_log.created_date }}</h6>
+                <h6><strong>Pages read:</strong> {{ reading_log.page }}</h6>
+                <h6><strong>Percent completed:</strong> {{ reading_log.get_percent_completed }}</h6>
+            </li>
+            <hr/>
+        {% endfor %}
+        </ul>
+    {% else %}
+        <p>There are no journal entries.</p>
+    {% endif %}
+{% endblock %}

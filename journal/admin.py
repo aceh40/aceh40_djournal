@@ -2,7 +2,7 @@ from django.contrib import admin
 
 from .models import JournalEntry, WeightEntry, \
     TennisRacket, TennisString, TennisStringJob, \
-    Author, Book, ReadingLog
+    Author, Book, ReadingLog, BookStatus, BookStatusRef
 
 admin.site.register(JournalEntry)
 admin.site.register(WeightEntry)
@@ -59,6 +59,12 @@ class AuthorAdmin(admin.ModelAdmin):
     fields = ('first_name', 'last_name', 'wiki_page')
 
 
+class BookStatusInline(admin.TabularInline):
+    """ Creates inline (nested form). """
+    extra = 0   # show no additional records for the inlines table. default = 3.
+    model = BookStatus
+
+
 class BookAdmin(admin.ModelAdmin):
     """ More customizable way to register models:
         Create a ModelAdmin class.
@@ -66,11 +72,27 @@ class BookAdmin(admin.ModelAdmin):
         Register the model along with the ModelAdmin class.
     """
     # Configure list display:
-    list_display = ('title', 'completed')
-    fields = ('title', 'authors', 'total_pages', 'summary', 'review_url', 'library_url', 'isbn', 'completed')
+    list_display = ('title', 'author')
+    fields = ('title', 'author', 'total_pages', 'summary', 'review_url', 'library_url', 'isbn')
+
+    # Adds the related model inline:
+    inlines = [BookStatusInline]
+
+
+class BookStatusAdmin(admin.ModelAdmin):
+    list_display = ('user', 'book', 'status_date', 'status')
+    fields = ('user', 'book', 'status')
+
+
+class BookStatusRefAdmin(admin.ModelAdmin):
+    list_display = ('status', 'logical_order')
+    fields = ('status', 'logical_order')
+
 
 
 admin.site.register(TennisRacket, TennisRacketAdmin)
 admin.site.register(TennisString, TennisStringAdmin)
 admin.site.register(Author, AuthorAdmin)
 admin.site.register(Book, BookAdmin)
+admin.site.register(BookStatus, BookStatusAdmin)
+admin.site.register(BookStatusRef, BookStatusRefAdmin)

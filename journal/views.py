@@ -6,8 +6,8 @@ from django.urls import reverse
 from django.views import generic
 from django.views.generic.edit import CreateView
 
-from .forms import StringJobForm
-from .models import JournalEntry, WeightEntry, TennisRacket, TennisString, TennisStringJob
+from .forms import StringJobForm, ReadingLogForm
+from .models import JournalEntry, WeightEntry, TennisRacket, TennisString, TennisStringJob, ReadingLog, Book
 
 
 # Create your views here.
@@ -29,7 +29,7 @@ class JournalList(LoginRequiredMixin, generic.ListView):
     model = JournalEntry
     template_name = 'journal/journal_list.html'
     context_object_name = 'journal'
-    paginate_by = 10
+    paginate_by = 15
 
     def get_queryset(self):
         """ Get journal entries by User. Order by due back desc. """
@@ -57,7 +57,7 @@ class WeightList(LoginRequiredMixin, generic.ListView):
     model = WeightEntry
     template_name = 'journal/weight_list.html'
     context_object_name = 'weight'
-    paginate_by = 10
+    paginate_by = 25
 
     def get_queryset(self):
         """ Get journal entries by User. Order by due back desc. """
@@ -81,7 +81,7 @@ class WeightEntryCreate(LoginRequiredMixin, CreateView):
 class TennisRacketList(LoginRequiredMixin, generic.ListView):
     """ Create generic list view on the Book model."""
     model = TennisRacket
-    paginate_by = 10
+    paginate_by = 25
     # Simple way to override default data:
     context_object_name = 'tennis_racket_list'    # your own name for the list as a template variable
     template_name = 'journal/tennis_racket_list.html'    # Specify your own template name/location
@@ -101,7 +101,7 @@ class TennisRacketDetail(LoginRequiredMixin, generic.DetailView):
 class TennisStringList(LoginRequiredMixin, generic.ListView):
     """ Create generic list view on the Book model."""
     model = TennisString
-    paginate_by = 10
+    paginate_by = 25
     # Simple way to override default data:
     context_object_name = 'tennis_string_list'    # your own name for the list as a template variable
     template_name = 'journal/tennis_string_list.html'    # Specify your own template name/location
@@ -143,8 +143,51 @@ class StringJobList(LoginRequiredMixin, generic.ListView):
     model = TennisStringJob
     template_name = 'journal/string_job_list.html'
     context_object_name = 'string_job_list'
-    paginate_by = 10
+    paginate_by = 25
 
     def get_queryset(self):
         """ Get string job entries by User. Order by due back desc. """
         return TennisStringJob.objects.filter(user=self.request.user).order_by('-created_date')
+
+
+@login_required
+def reading_log(request):
+    """ Log reading progress. Enter book, page reached, book status and notes.
+
+    :param request:
+    :return:
+    """
+    if request.method == 'POST':
+        reading_form = ReadingLogForm(request.POST)
+        if reading_form.is_valid():
+            obj = reading_form.save(commit=False)
+            obj.user = request.user
+            obj.save()
+            return HttpResponseRedirect(reverse('journal:reading_log_list'))
+    else:
+        reading_form = ReadingLogForm()
+        return render(request, 'journal/reading_log_entry.html', {'reading_form': reading_form})
+
+
+class ReadingLogListView(LoginRequiredMixin, generic.ListView):
+    """ List reading log information.
+    """
+    model = ReadingLog
+    template_name = 'journal/reading_log_list.html'
+    context_object_name = 'reading_list'
+    paginate_by = 25
+
+    def get_queryset(self):
+        return ReadingLog.objects.filter(user=self.request.user).order_by('-created_date')
+
+
+@login_required
+def book_list_view(request):
+    """ Lists all books in the db."""
+    book_list = Book.objects.all()
+    return render(request, 'journal/book_list.html', {'book_list': book_list})
+
+
+
+
+

@@ -1,0 +1,31 @@
+{% extends 'journal/base.html' %}
+
+{% block content %}
+    <h1>Book List</h1>
+    </hr>
+  <!--  <a href= "{% url 'journal:journal_entry' %}"><h3>Create new:</h3></a> -->
+    <h3>Recent entries:</h3>
+    <hr/>
+    {% if book_list %}
+        {% for book in book_list %}
+            <h6>{{ book }}</h6>
+            <strong>author: </strong>
+                {% if book.author %}
+                    <em>{{ book.author }}</em>
+                {% else %}
+                    <em>None</em>
+                {% endif %}
+            <p></p><strong>status: </strong>
+            {% if book.get_current_status.status %}
+                <em>{{ book.get_current_status.status}}</em>
+                <strong> as of </strong>
+                <em>{{ book.get_current_status.status_date}}</em>
+            {% else %}
+                <em>None</em>
+            {% endif %}</p>
+            <hr/>
+        {% endfor %}
+    {% else %}
+        <p>There are no books here.</p>
+    {% endif %}
+{% endblock %}
