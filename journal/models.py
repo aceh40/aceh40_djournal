@@ -183,8 +183,8 @@ class TennisStringJob(JournalEntry):
 
 class Author(models.Model):
     """ Enter authors"""
-    first_name = models.CharField(max_length=150)
-    last_name = models.CharField(max_length=150)
+    first_name = models.CharField(max_length=150,verbose_name='First Name')
+    last_name = models.CharField(max_length=150, verbose_name='Last Name')
     wiki_page = models.URLField(null=True, blank=True)
 
     class Meta:
@@ -209,6 +209,7 @@ class Book(models.Model):
                                on_delete=models.SET_NULL)
     title = models.CharField(max_length=250, verbose_name='Title',
                              help_text='Enter book title.')
+    is_ebook = models.BooleanField(help_text='Is this an e-book?', null=False, blank=True, default=0)
     total_pages = models.IntegerField(null=True, blank=True, verbose_name='Total pages',
                                       help_text='Enter total number of pages.')
     summary = models.TextField(null=True, blank=True,

@@ -188,6 +188,17 @@ def book_list_view(request):
     return render(request, 'journal/book_list.html', {'book_list': book_list})
 
 
+class BookEntryCreate(LoginRequiredMixin, CreateView):
+    """ """
+    model = Book
+    fields = ['title', 'author', 'is_ebook', 'total_pages', 'summary',
+              'review_url', 'library_url', 'isbn']
 
+    def form_valid(self, form):
+        """ """
+        obj = form.save(commit=False)
+        obj.user = self.request.user
+        obj.save()
+        return HttpResponseRedirect(reverse('journal:book_list'))
 
 

@@ -22,5 +22,6 @@ urlpatterns = [
     path('reading/', views.ReadingLogListView.as_view(), name='reading_log_list'),
     path('reading/entry/', views.reading_log, name='reading_entry'),
     path('reading/books/', views.book_list_view, name='book_list'),
+    path ('reading/books/entry/', views.BookEntryCreate.as_view(), name='book_entry')
 ]
 
