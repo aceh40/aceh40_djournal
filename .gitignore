@@ -1,5 +1,13 @@
 .idea
 .env
+.git
 db.sqlite3
 wip/
 app/ve/
+ *.pyc
+*~
+__pycache__
+myvenv
+venv/
+/static
+.DS_Store
