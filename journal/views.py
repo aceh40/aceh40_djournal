@@ -7,7 +7,7 @@ from django.views import generic
 from django.views.generic.edit import CreateView
 
 from .forms import StringJobForm, ReadingLogForm
-from .models import JournalEntry, WeightEntry, TennisRacket, TennisString, TennisStringJob, ReadingLog, Book
+from .models import JournalEntry, WeightEntry, TennisRacket, TennisString, TennisStringJob, ReadingLog, Book, Author
 
 
 # Create your views here.
@@ -202,3 +202,21 @@ class BookEntryCreate(LoginRequiredMixin, CreateView):
         return HttpResponseRedirect(reverse('journal:book_list'))
 
 
+@login_required
+def author_list_view(request):
+    """ Lists all books in the db."""
+    author_list = Author.objects.all()
+    return render(request, 'journal/author_list.html', {'author_list': author_list})
+
+
+class AuthorEntryCreate(LoginRequiredMixin, CreateView):
+    """ """
+    model = Author
+    fields = ['first_name', 'last_name', 'wiki_page']
+
+    def form_valid(self, form):
+        """ """
+        obj = form.save(commit=False)
+        obj.user = self.request.user
+        obj.save()
+        return HttpResponseRedirect(reverse('journal:author_list'))
