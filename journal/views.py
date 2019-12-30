@@ -191,8 +191,8 @@ def book_list_view(request):
 class BookEntryCreate(LoginRequiredMixin, CreateView):
     """ """
     model = Book
-    fields = ['title', 'author', 'is_ebook', 'total_pages', 'summary',
-              'review_url', 'library_url', 'isbn']
+    fields = ['title', 'author', 'is_ebook', 'total_pages',
+              'review_url', 'library_url', 'isbn', 'summary']
 
     def form_valid(self, form):
         """ """
