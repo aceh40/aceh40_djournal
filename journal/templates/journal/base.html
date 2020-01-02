@@ -28,15 +28,15 @@
             {% block pagination %}      <!-- Block which sets up pagination -->
                 {% if is_paginated %}       <!-- Checks if pagination exists on the page -->
                 <span class="pagination">
-                    <span><a href="{{ request.path }}?page=1"><em>|< first&nbsp&nbsp</em></a></span>
+                    <span><a href="{{ request.path }}?page=1"><i class="fas fa-angle-double-left" style="color:#0297DB; padding-left:10px; padding-right:10px; padding-top:5px"></i></a></span>
                     {% if page_obj.has_previous %}      <!-- If previous page exists, add link to previous page. -->
-                        <span><a href="{{ request.path }}?page={{ page_obj.previous_page_number }}"><em><< previous&nbsp&nbsp</em></a></span>
+                        <span><a href="{{ request.path }}?page={{ page_obj.previous_page_number }}"><i class="fas fa-angle-left" style="color:#0297DB; padding-left:10px; padding-right:10px; padding-top:5px"></i></a></span>
                     {% endif %}
-                    <span><em>Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}.&nbsp&nbsp</em></span>
+                    <span><h5>Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}.&nbsp&nbsp</h5></span>
                     {% if page_obj.has_next %}          <!-- If next page exists, add link to next page. -->
-                        <span><a href="{{ request.path }}?page={{ page_obj.next_page_number }}"><em>next >>&nbsp&nbsp</em></a></span>
+                        <span><a href="{{ request.path }}?page={{ page_obj.next_page_number }}"><i class="fas fa-angle-right" style="color:#0297DB; padding-left:10px; padding-right:10px; padding-top:5px"></i></a></span>
                     {% endif %}
-                    <span><a href="{{ request.path }}?page={{ page_obj.paginator.num_pages }}"><em>last >|</em></a></span>
+                    <span><a href="{{ request.path }}?page={{ page_obj.paginator.num_pages }}"><i class="fas fa-angle-double-right" style="color:#0297DB; padding-left:10px; padding-right:10px; padding-top:5px"></i></a></span>
                 {% endif %}
             {% endblock %}
         </div>

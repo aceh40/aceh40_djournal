@@ -1,3 +1,4 @@
+from datetime import date
 from django.conf import settings
 from django.db import models
 from django.utils import timezone
@@ -41,6 +42,10 @@ class JournalEntry(models.Model):
     def publish(self):
         self.created_date = timezone.now()
         self.save()
+
+    def get_date(self):
+        getdate = date.fromtimestamp(self.created_date)
+        return getdate
 
     class Meta:
         """ Meta data, in this case we instruct to order list views by due_back.

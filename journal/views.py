@@ -1,3 +1,5 @@
+from datetime import date, datetime, timedelta
+
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.http import HttpResponseRedirect
@@ -185,6 +187,7 @@ class ReadingLogListView(LoginRequiredMixin, generic.ListView):
 def book_list_view(request):
     """ Lists all books in the db."""
     book_list = Book.objects.all()
+    paginate_by = 25
     return render(request, 'journal/book_list.html', {'book_list': book_list})
 
 
@@ -206,6 +209,7 @@ class BookEntryCreate(LoginRequiredMixin, CreateView):
 def author_list_view(request):
     """ Lists all books in the db."""
     author_list = Author.objects.all()
+    paginate_by = 25
     return render(request, 'journal/author_list.html', {'author_list': author_list})
 
 
@@ -250,5 +254,6 @@ class DietListView(LoginRequiredMixin, generic.ListView):
 @login_required
 def diet_list_view(request):
     """ Lists all books in the db."""
-    diet_list = DietEntry.objects.all()
+    diet_list = DietEntry.objects.all().order_by('-created_date')
+    # diet_today = DietEntry.objects.filter(created_date__gte=datetime.now() - timedelta(days=7))
     return render(request, 'journal/diet_list.html', {'diet_list': diet_list})
