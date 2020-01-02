@@ -30,10 +30,7 @@ class JournalEntry(models.Model):
         ('th', 'Tennis hitting session'),
         ('tm', 'Tennis match'),
 
-        ('bl', 'Breakfast log'),
-        ('ll', 'Lunch log'),
-        ('dl', 'Dinner log'),
-        ('sl', 'Snack log'),
+        ('dl', 'Diet log'),
     )
 
     type = models.CharField(choices=entry_type, blank=True, null=True, max_length=3, help_text='Journal entry type')
@@ -178,6 +175,8 @@ class TennisStringJob(JournalEntry):
     def set_type(self):
         """ Set the type of the journal entry."""
         self.type = 'ts'
+        self.title = f'Racket String Job'
+        self.text = f'I strung racket {self.racket} with {self.main_string_id} main string on {self.main_tension} lb. and cross string {self.cross_string_id} on {self.cross_tension} lb.'
         self.save()
 
 
@@ -284,3 +283,27 @@ class ReadingLog(JournalEntry):
             return pc
         else:
             return None
+
+    def set_type(self):
+        """ Set the type of the journal entry."""
+        self.type = 'rl'
+        self.title = f'Reading Log: {self.book}'
+        self.text = f'I am reading  {self.book} and reached page {self.page} of {self.book.total_pages}, and completed {self.get_percent_completed} percent.'
+        self.save()
+
+
+class DietEntry(JournalEntry):
+    """ Subclass of JournalEntry.
+    """
+    meal_type = (('b', 'Breakfast'), ('l', 'Lunch'), ('d', 'dinner'), ('s', 'Snack'))
+    score_type = ((True, 'Good'), (False, 'Bad'))
+
+    meal = models.CharField(choices=meal_type, max_length=1, help_text="Type of meal")
+    score = models.BooleanField(choices=score_type, help_text="Meal score or rating")
+
+    def set_type(self):
+        """ Set the type of journal entry."""
+        self.type = 'dl'
+        self.title = f'{self.meal} log.'
+        self.save()
+

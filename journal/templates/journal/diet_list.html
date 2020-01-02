@@ -1,0 +1,23 @@
+{% extends 'journal/base.html' %}
+
+{% block content %}
+    <h1>Diet Log</h1>
+    <a href="{% url 'journal:diet_entry' %}">Add new</a>
+    </hr></br>
+    <h3>Recent entries:</h3>
+    <hr/>
+    {% if diet_list %}
+        {% for diet_entry in diet_list %}
+            <strong>Date: </strong>
+            <em>{{ diet_entry.created_date }}</em>
+            <strong>Meal Type: </strong>
+            <em>{{ diet_entry.meal }}</em>
+            <strong>Score: </strong>
+            <em>{{ diet_entry.score }}</em>
+            </br>
+            <hr/>
+        {% endfor %}
+    {% else %}
+        <p>There are no diet entries.</p>
+    {% endif %}
+{% endblock %}

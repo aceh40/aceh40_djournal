@@ -7,7 +7,7 @@ from django.views import generic
 from django.views.generic.edit import CreateView
 
 from .forms import StringJobForm, ReadingLogForm
-from .models import JournalEntry, WeightEntry, TennisRacket, TennisString, TennisStringJob, ReadingLog, Book, Author
+from .models import JournalEntry, WeightEntry, TennisRacket, TennisString, TennisStringJob, ReadingLog, Book, Author, DietEntry
 
 
 # Create your views here.
@@ -220,3 +220,35 @@ class AuthorEntryCreate(LoginRequiredMixin, CreateView):
         obj.user = self.request.user
         obj.save()
         return HttpResponseRedirect(reverse('journal:author_list'))
+
+
+class DietEntryCreate(LoginRequiredMixin, CreateView):
+    """ """
+    model = DietEntry
+    fields = ['meal', 'score', 'text']
+
+    def form_valid(self, form):
+        """ """
+        obj = form.save(commit=False)
+        obj.user = self.request.user
+        obj.save()
+        return HttpResponseRedirect(reverse('journal:diet_list'))
+
+#~TODO: Make this view work, or paginate the view below.
+class DietListView(LoginRequiredMixin, generic.ListView):
+    """ List reading log information.
+    """
+    model = DietEntry
+    template_name = 'journal/diet_list.html'
+    context_object_name = 'diet_list'
+    paginate_by = 25
+
+    def get_queryset(self):
+        return DietEntry.objects.filter(user=self.request.user).order_by('-created_date')
+
+
+@login_required
+def diet_list_view(request):
+    """ Lists all books in the db."""
+    diet_list = DietEntry.objects.all()
+    return render(request, 'journal/diet_list.html', {'diet_list': diet_list})

@@ -6,20 +6,20 @@
     </hr></br>
     </hr>
     {% if author_list %}
-    <h3>Recent entries:</h3>
-    <hr/>
-    {% for author in author_list %}
-        <h6>{{ author }}</h6>
-        <strong>First Name: </strong>
-        <em>{{ author.first_name }}</em>
-        <strong>Last Name: </strong>
-        <em>{{ author.last_name }}</em>
-        </br>
-        {% if author.wiki_page %}
-            <em><a href="{{ author.wiki_page }}">Wikipedia Page</a></em>
-        {% endif %}</p>
+        <h3>Recent entries:</h3>
         <hr/>
-    {% endfor %}
+        {% for author in author_list %}
+            <h6>{{ author }}</h6>
+            <strong>First Name: </strong>
+            <em>{{ author.first_name }}</em>
+            <strong>Last Name: </strong>
+            <em>{{ author.last_name }}</em>
+            </br>
+            {% if author.wiki_page %}
+                <em><a href="{{ author.wiki_page }}" target="_blank">Wikipedia Page</a></em>
+            {% endif %}</p>
+            <hr/>
+        {% endfor %}
     {% else %}
         <p>There are no authors added to the database.</p>
     {% endif %}

@@ -22,8 +22,13 @@ urlpatterns = [
     path('reading/', views.ReadingLogListView.as_view(), name='reading_log_list'),
     path('reading/entry/', views.reading_log, name='reading_entry'),
     path('reading/books/', views.book_list_view, name='book_list'),
-    path ('reading/books/entry/', views.BookEntryCreate.as_view(), name='book_entry'),
+    path('reading/books/entry/', views.BookEntryCreate.as_view(), name='book_entry'),
     path('reading/authors/', views.author_list_view, name='author_list'),
-    path('reading/authors/entry/', views.AuthorEntryCreate.as_view(), name='author_entry')
+    path('reading/authors/entry/', views.AuthorEntryCreate.as_view(), name='author_entry'),
+
+    path('diet/entry/', views.DietEntryCreate.as_view(), name='diet_entry'),
+    # path('diet/list/', views.DietListView.as_view(), name="diet_list"),
+    path('diet/list/', views.diet_list_view, name="diet_list"),
+
 ]
 
