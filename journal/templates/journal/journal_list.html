@@ -4,13 +4,19 @@
     <h1>Journal</h1>
     </hr>
     <a href= "{% url 'journal:journal_entry' %}"><h3>Create new:</h3></a>
-    <h3>Recent entries:</h3>
+    <h3>Recent entries...:</h3>
     <hr/>
     {% if journal %}
         <ul>
         {% for journal_entry in journal %}
             <li>
                 <h6>{{ journal_entry.title }}</h6>
+                {% if journal_entry.type %}
+                    <p>{{ journal_entry.get_type_display }}</p>
+                    <p>{{ journal_entry.type }}</p>
+                {% else %}
+                    <p> NO TYPE!</p>
+                {% endif %}
                 <em>{{ journal_entry.created_date }}</em>
                 <p>{{ journal_entry.text }}</p>
             </li>

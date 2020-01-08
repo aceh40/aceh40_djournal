@@ -33,7 +33,7 @@ class JournalEntry(models.Model):
 
         ('dl', 'Diet log'),
     )
-
+    # To display the choice values, use get_FOO_display instead of FOO, where FOO is fieldname
     type = models.CharField(choices=entry_type, blank=True, null=True, max_length=3, help_text='Journal entry type')
 
     def __str__(self):
@@ -104,7 +104,7 @@ class TennisString(models.Model):
         ('n', 'Nylon'),
     )
     string_gauge = (('15', '15'), ('16', '16'), ('17', '17'), ('18', '18'), ('19', '19'))
-
+    # To display the choice values, use get_FOO_display instead of FOO, where FOO is field name
     type = models.CharField(choices=string_type, max_length=1, help_text='Type of string')
     gauge = models.CharField(choices=string_gauge, max_length=2, help_text='Gauge of string')
     url = models.URLField(null=True, blank=True, help_text="Link to string's page on stringforum.net")
@@ -300,9 +300,10 @@ class ReadingLog(JournalEntry):
 class DietEntry(JournalEntry):
     """ Subclass of JournalEntry.
     """
-    meal_type = (('b', 'Breakfast'), ('l', 'Lunch'), ('d', 'dinner'), ('s', 'Snack'))
+    meal_type = (('b', 'Breakfast'), ('l', 'Lunch'), ('d', 'Dinner'), ('s', 'Snack'))
     score_type = ((True, 'Good'), (False, 'Bad'))
 
+    # To display the choice values, use get_FOO_display instead of FOO, where FOO is fieldname
     meal = models.CharField(choices=meal_type, max_length=1, help_text="Type of meal")
     score = models.BooleanField(choices=score_type, help_text="Meal score or rating")
 
@@ -312,3 +313,9 @@ class DietEntry(JournalEntry):
         self.title = f'{self.meal} log.'
         self.save()
 
+    class Meta:
+        """ Meta data, in this case we instruct to order list views by due_back.
+        """
+        verbose_name = 'Diet Entry'
+        verbose_name_plural = 'Diet Entries'
+        ordering = ['-created_date']

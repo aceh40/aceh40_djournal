@@ -6,10 +6,13 @@
     <div>
         <h4>{{ tennisstring }}</h4>
         <hr/>
-        <p><strong>{% get_verbose tennisstring "type" %}: </strong>{{ tennisstring.type }}</p>
+<!--        To display the choice values, use get_FOO_display instead of FOO, where FOO is fieldname (see below)-->
+        <p><strong>{% get_verbose tennisstring "type" %}: </strong>{{ tennisstring.get_type_display }}</p>
         <p><strong>{% get_verbose tennisstring "gauge" %}: </strong>{{ tennisstring.gauge }}</p>
-        <p><strong>{% get_verbose tennisstring "url" %}: </strong>
-            <a href="{{ tennisstring.url }}">{{ tennisstring.url }}</a></p>
+        {% if tennisstring.url %}
+            <p><strong>{% get_verbose tennisstring "url" %}: </strong>
+                <a href="{{ tennisstring.url }}" target="_blank">{{ tennisstring.url }}</a></p>
+        {% endif %}
     </div>
 
 {% endblock %}

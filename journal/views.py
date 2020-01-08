@@ -163,6 +163,11 @@ def reading_log(request):
         reading_form = ReadingLogForm(request.POST)
         if reading_form.is_valid():
             obj = reading_form.save(commit=False)
+            obj.type = 'rl'
+            page = request.POST["page"]
+            book_title = Book.objects.get(id=request.POST["book"])
+            obj.title = f'Read {book_title} to page {page}.'
+            obj = reading_form.save(commit=False)
             obj.user = request.user
             obj.save()
             return HttpResponseRedirect(reverse('journal:reading_log_list'))

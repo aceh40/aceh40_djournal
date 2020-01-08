@@ -11,9 +11,10 @@
             <strong>Date: </strong>
             <em>{{ diet_entry.created_date }}</em>
             <strong>Meal Type: </strong>
-            <em>{{ diet_entry.meal }}</em>
+<!--To display the choice values, use get_FOO_display instead of FOO, where FOO is fieldname (see below)-->
+            <em>{{ diet_entry.get_meal_display }}</em>
             <strong>Score: </strong>
-            <em>{{ diet_entry.score }}</em>
+            <em>{{ diet_entry.get_score_display }}</em>
             </br>
             <hr/>
         {% endfor %}

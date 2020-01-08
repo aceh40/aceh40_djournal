@@ -2,14 +2,8 @@ from django.contrib import admin
 
 from .models import JournalEntry, WeightEntry, \
     TennisRacket, TennisString, TennisStringJob, \
-    Author, Book, ReadingLog, BookStatus, BookStatusRef
-
-admin.site.register(JournalEntry)
-admin.site.register(WeightEntry)
-# admin.site.register(TennisRacket)
-# admin.site.register(TennisString)
-admin.site.register(TennisStringJob)
-admin.site.register(ReadingLog)
+    Author, Book, ReadingLog, BookStatus, BookStatusRef, \
+    DietEntry
 
 
 class TennisRacketAdmin(admin.ModelAdmin):
@@ -89,10 +83,19 @@ class BookStatusRefAdmin(admin.ModelAdmin):
     fields = ('status', 'logical_order')
 
 
+class DietEntryAdmin(admin.ModelAdmin):
+    list_display = ('user', 'meal', 'created_date', 'score')
+    fields = ('user', 'title', 'text', 'type','meal', 'score')
 
+
+admin.site.register(JournalEntry)
+admin.site.register(WeightEntry)
+admin.site.register(TennisStringJob)
 admin.site.register(TennisRacket, TennisRacketAdmin)
 admin.site.register(TennisString, TennisStringAdmin)
+admin.site.register(ReadingLog)
 admin.site.register(Author, AuthorAdmin)
 admin.site.register(Book, BookAdmin)
 admin.site.register(BookStatus, BookStatusAdmin)
 admin.site.register(BookStatusRef, BookStatusRefAdmin)
+admin.site.register(DietEntry, DietEntryAdmin)
