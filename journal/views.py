@@ -132,6 +132,8 @@ def string_job(request):
         if form.is_valid():
             obj = form.save(commit=False)
             obj.user = request.user
+            obj.type = 'ts'
+            obj.title = f'Racket stringing job.'
             obj.save()
             return HttpResponseRedirect(reverse('journal:string_job_list'))
     else:
@@ -240,6 +242,7 @@ class DietEntryCreate(LoginRequiredMixin, CreateView):
         """ """
         obj = form.save(commit=False)
         obj.user = self.request.user
+        obj.type = 'dl'
         obj.save()
         return HttpResponseRedirect(reverse('journal:diet_list'))
 

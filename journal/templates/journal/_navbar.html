@@ -11,15 +11,29 @@
     </button>
     <div class="collapse navbar-collapse" id="collapsibleNavbar">
         <ul class="navbar-nav mr-auto">
-            <li class="nav-item">
-                <a class="nav-link" href="#"><h5>Dashboard</h5></a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" style="" href="#"><h5>Journal</h5></a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" href="#"><h5>Blog</h5></a>
-            </li>
+            {% if user.is_authenticated %}
+                <li class="nav-item dropdown">
+                  <a class="nav-link dropdown-toggle" href="#" id="navbardrop" data-toggle="dropdown">
+                    Journal
+                  </a>
+                  <div class="dropdown-menu">
+                    <a class="dropdown-item" href="{% url 'journal:journal' %}">History</a>
+                    <a class="dropdown-item" href="{% url 'journal:journal_entry' %}">Add</a>
+                  </div>
+                </li>
+                <li class="nav-item dropdown">
+                  <a class="nav-link dropdown-toggle" href="#" id="navbardrop" data-toggle="dropdown">
+                    Tennis
+                  </a>
+                  <div class="dropdown-menu">
+                    <a class="dropdown-item" href="{% url 'journal:tennis_racket_list' %}">Rackets</a>
+                    <a class="dropdown-item" href="{% url 'journal:tennis_string_list' %}">Strings</a>
+                    <a class="dropdown-item" href="{% url 'journal:string_job_list' %}">String jobs</a>
+                    <a class="dropdown-item" href="{% url 'journal:string_job' %}">Add a string job</a>
+
+                  </div>
+                </li>
+            {% endif %}
         </ul>
         <ul class="navbar-nav ml-auto">
             {% if user.is_authenticated %}
