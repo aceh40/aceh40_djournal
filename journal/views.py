@@ -265,3 +265,10 @@ def diet_list_view(request):
     diet_list = DietEntry.objects.all().order_by('-created_date')
     # diet_today = DietEntry.objects.filter(created_date__gte=datetime.now() - timedelta(days=7))
     return render(request, 'journal/diet_list.html', {'diet_list': diet_list})
+
+
+@login_required
+def daily_habit_view(request):
+    """ Track whether habits are followed daily."""
+    loop = [0,1,0]
+    return render(request, 'journal/daily_habit_view.html',{'loop': loop})

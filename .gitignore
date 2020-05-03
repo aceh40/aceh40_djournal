@@ -2,12 +2,13 @@
 .env
 .git
 db.sqlite3
-wip/
+wip_code/
 app/ve/
  *.pyc
 *~
 __pycache__
 myvenv
 venv/
+venv37/
 /static
 .DS_Store

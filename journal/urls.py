@@ -30,5 +30,7 @@ urlpatterns = [
     # path('diet/list/', views.DietListView.as_view(), name="diet_list"),
     path('diet/list/', views.diet_list_view, name="diet_list"),
 
+    path('daily_habit_view/', views.daily_habit_view, name='daily_habit_view'),
+
 ]
 
