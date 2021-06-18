@@ -3,10 +3,45 @@
 {% block content %}
     <h1>Weight</h1>
     </hr>
-    <a href= "{% url 'journal:weight_entry' %}"><h5>Create new:</h5></a>
-    <h3>Recent entries:</h3>
+    <a href="{% url 'journal:weight_entry' %}"><i class="fas fa-plus fa-2x" style="color: #0297DB"></i></a>
     <hr/>
-    {% if weight %}
+    <h3>Aggregates:</h3>
+    <table class="table table-border table-sm" style="display: block">
+      <thead>
+        <tr>
+            <th>Period</th>
+            <th>Average</th>
+            <th>Maximum</th>
+            <th>Minimum</th>
+            <th>Count</th>
+        </tr>
+      </thead>
+      <tr>
+        <td>15 Day</td>
+        <td>{{ avg_15 }}</td>
+        <td>{{ max_15 }}</td>
+        <td>{{ min_15 }}</td>
+        <td>{{ count_15 }}</td>
+      </tr>
+      <tr>
+        <td>60 Day</td>
+        <td>{{ avg_60 }}</td>
+        <td>{{ max_60 }}</td>
+        <td>{{ min_60 }}</td>
+        <td>{{ count_60 }}</td>
+      </tr>
+      <tr>
+        <td>365 Day</td>
+        <td>{{ avg_365 }}</td>
+        <td>{{ max_365 }}</td>
+        <td>{{ min_365 }}</td>
+        <td>{{ count_365 }}</td>
+      </tr>
+    </table>    
+    <br/>
+    <hr/>
+    <h3>Recent entries:</h3>
+    {% if weight_list %}
 
         <table class="table table-borderless table-sm" style="display: block">
             <tr>
@@ -14,7 +49,7 @@
                 <th style="width:120px">Weight (lb)</th>
                 <th style="width:400px">Note</th>
             </tr>
-            {% for weight_entry in weight %}
+            {% for weight_entry in weight_list %}
             <tr>
                 <td>{{ weight_entry.created_date }}</td>
                 <td>{{ weight_entry.weight }}</td>

@@ -7,7 +7,7 @@ from django.shortcuts import render
 from django.urls import reverse
 from django.views import generic
 from django.views.generic.edit import CreateView
-
+from django.db.models import Avg, Max, Min, Count
 from .forms import StringJobForm, ReadingLogForm
 from .models import JournalEntry, WeightEntry, TennisRacket, TennisString, TennisStringJob, ReadingLog, Book, Author, DietEntry
 
@@ -52,19 +52,72 @@ class JournalEntryCreate(LoginRequiredMixin, CreateView):
         return HttpResponseRedirect(reverse('journal:journal'))
 
 
-class WeightList(LoginRequiredMixin, generic.ListView):
-    """
-    Generic class-based view listing books on loan to current user.
-    """
-    model = WeightEntry
-    template_name = 'journal/weight_list.html'
-    context_object_name = 'weight'
-    paginate_by = 25
-
-    def get_queryset(self):
-        """ Get journal entries by User. Order by due back desc. """
-        return WeightEntry.objects.filter(user=self.request.user).order_by('-created_date')
-        # return JournalEntry.objects.filter(user=self.request.user).order_by('-created_date')
+@login_required
+def weight_list_view(request):
+    """ Lists all books in the db."""
+    weight_list = WeightEntry.objects.filter(user=request.user, created_date__gte=datetime.now()-timedelta(days=60)).order_by('-created_date')
+    avg_15_dec = WeightEntry.objects.filter(user=request.user, created_date__gte=datetime.now()-timedelta(days=15)).aggregate(Avg('weight'))["weight__avg"]
+    avg_15 = "{:.2f}".format(avg_15_dec)
+    max_15_dec = WeightEntry.objects.filter(user=request.user, created_date__gte=datetime.now()-timedelta(days=15)).aggregate(Max('weight'))["weight__max"]
+    max_15 = "{:.2f}".format(max_15_dec)
+    min_15_dec = WeightEntry.objects.filter(user=request.user, created_date__gte=datetime.now()-timedelta(days=15)).aggregate(Min('weight'))["weight__min"]
+    min_15 = "{:.2f}".format(min_15_dec)
+    count_15_dec = WeightEntry.objects.filter(user=request.user, created_date__gte=datetime.now()-timedelta(days=15)).aggregate(Count('weight'))["weight__count"]
+    count_15 = "{:.0f}".format(count_15_dec)
+    avg_60_dec = WeightEntry.objects.filter(user=request.user, created_date__gte=datetime.now()-timedelta(days=60)).aggregate(Avg('weight'))["weight__avg"]
+    avg_60 = "{:.2f}".format(avg_60_dec)
+    max_60_dec = WeightEntry.objects.filter(user=request.user, created_date__gte=datetime.now()-timedelta(days=60)).aggregate(Max('weight'))["weight__max"]
+    max_60 = "{:.2f}".format(max_60_dec)
+    min_60_dec = WeightEntry.objects.filter(user=request.user, created_date__gte=datetime.now()-timedelta(days=60)).aggregate(Min('weight'))["weight__min"]
+    min_60 = "{:.2f}".format(min_60_dec)
+    count_60_dec = WeightEntry.objects.filter(user=request.user, created_date__gte=datetime.now()-timedelta(days=60)).aggregate(Count('weight'))["weight__count"]
+    count_60 = "{:.0f}".format(count_60_dec)
+    avg_365_dec = WeightEntry.objects.filter(user=request.user, created_date__gte=datetime.now()-timedelta(days=365)).aggregate(Avg('weight'))["weight__avg"]
+    avg_365 = "{:.2f}".format(avg_365_dec)
+    max_365_dec = WeightEntry.objects.filter(user=request.user, created_date__gte=datetime.now()-timedelta(days=365)).aggregate(Max('weight'))["weight__max"]
+    max_365 = "{:.2f}".format(max_365_dec)
+    min_365_dec = WeightEntry.objects.filter(user=request.user, created_date__gte=datetime.now()-timedelta(days=365)).aggregate(Min('weight'))["weight__min"]
+    min_365 = "{:.2f}".format(min_365_dec)
+    count_365_dec = WeightEntry.objects.filter(user=request.user, created_date__gte=datetime.now()-timedelta(days=365)).aggregate(Count('weight'))["weight__count"]
+    count_365 = "{:.0f}".format(count_365_dec)
+    # diet_today = DietEntry.objects.filter(created_date__gte=datetime.now() - timedelta(days=7))
+    return render(request, 'journal/weight_list.html', {'weight_list': weight_list,
+                                                        'avg_15': avg_15,
+                                                        'max_15': max_15,
+                                                        'min_15': min_15,
+                                                        'count_15': count_15,
+                                                        'avg_60': avg_60,
+                                                        'max_60': max_60,
+                                                        'min_60': min_60,
+                                                        'count_60': count_60,                                                        'avg_60': avg_60,
+                                                        'avg_365': avg_365,
+                                                        'max_365': max_365,
+                                                        'min_365': min_365,
+                                                        'count_365': count_365,
+                                                        })
+#
+#
+# class WeightList(LoginRequiredMixin, generic.ListView):
+#     """
+#     Generic class-based view listing books on loan to current user.
+#     """
+#     model = WeightEntry
+#     template_name = 'journal/weight_list.html'
+#     context_object_name = 'weight'
+#     paginate_by = 25
+#
+#     def get_queryset(self):
+#         """ Get journal entries by User. Order by due back desc. """
+#         return WeightEntry.objects.filter(user=self.request.user).order_by('-created_date')
+#         # return JournalEntry.objects.filter(user=self.request.user).order_by('-created_date')
+#
+#     def get_30day_stats(self):
+#         """ Get descriptive stats for last 30 days """
+#         avg_30 = WeightEntry.objects.All().aggregate(Avg('weight'))
+#         # count_30 = WeightEntry.objects.All().aggregate(Count('weight'))
+#         # max_30 = WeightEntry.objects.All().aggregate(Max('weight'))
+#         # min_30 = WeightEntry.objects.All().aggregate(Min('weight'))
+#         return avg_30
 
 
 class WeightEntryCreate(LoginRequiredMixin, CreateView):

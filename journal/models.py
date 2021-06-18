@@ -4,6 +4,7 @@ from django.db import models
 from django.utils import timezone
 
 
+
 # Create your models here.
 
 
@@ -86,7 +87,6 @@ class WeightEntry(models.Model):
         ordering = ['-created_date']
         verbose_name = 'Weight Entry'
         verbose_name_plural = 'Weight Entries'
-
 
 class TennisString(models.Model):
     """ List of tennis strings
